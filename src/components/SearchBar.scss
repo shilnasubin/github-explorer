@@ -1,0 +1,26 @@
+@import "../sass/flex-mixins.scss";
+.search-bar {
+    .title-block {
+        @include align-self(center);
+        @include flexbox;
+        @include align-items(center);
+        .logo {
+            width: 80px;
+            height: 80px;
+            max-width: 100%;
+            margin-right: 20px;
+        }     
+        .details {
+           .title {
+               font-size: 32px;
+               line-height: 36px;
+               font-family: 'Space Mono', monospace;
+               font-weight: bold;
+           }
+           p {
+               font-size: 18px;
+               line-height: 22px;;
+           }
+        }
+    }
+}
