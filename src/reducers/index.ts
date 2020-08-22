@@ -1,10 +1,11 @@
-const searchResultReducer = (state = [], action: any) => {
-    switch (action.type) {
-        case 'SEARCHRESULT':
-            return action.searchResult;
-        default:
-            return state;
-    }
-}
+import SearchResultReducer from './searchResultReducer';
+import SearchCategoryReducer from './searchCategoryReducer';
+import { combineReducers } from 'redux';
 
-export default searchResultReducer;
+
+const allReducers = combineReducers({
+    searchCategory: SearchCategoryReducer,
+    searchResult: SearchResultReducer
+});
+
+export default allReducers;

@@ -39,10 +39,16 @@
 
 @import "./sass/flex-mixins.scss";
 .app {
+  max-width: 1200px;
+  margin: 0 auto;
   min-height: 100vh;
   width: 100%;
-  @include flexbox;
-  @include flex-direction(column);
-  @include align-items(center);
-  @include justify-content(center);
+  padding: 80px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  @media (max-width: 1300px) {
+    max-width: 100%;
+    padding: 60px 5%;
+  }
 }
