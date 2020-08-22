@@ -22,11 +22,7 @@ const SearchResult: FunctionComponent = () => {
                 return "Not Found";
         }
     }
-    useEffect(() => {
-        console.log("LOADING", isLoading);
-        console.log("SSSDD", xxxx);
-    });
-
+    
     return (
         <div className="search-result">
             <h3>{JSON.stringify(isLoading)}</h3>

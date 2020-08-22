@@ -1,5 +1,6 @@
 
 export interface GitHubResult {
+    stargazers_count?: string;
     login?: string,
     avatar_url?: string,
     html_url?: string,

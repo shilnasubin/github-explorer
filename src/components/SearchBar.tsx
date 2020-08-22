@@ -1,14 +1,15 @@
-import React, { useState, useEffect, FunctionComponent } from 'react';
+import React, { useState, useEffect, FunctionComponent, useCallback } from 'react';
 // import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchCategoryAction, getSearchAction, searchRequestAction } from '../actions';
+import { searchCategoryAction, getSearchAction, searchResultAction } from '../actions';
 // import { CATEGORY_LIST } from '../constants/constants';
 // import debounce from 'lodash.debounce';
 import { CATEGORY_LIST } from '../constants/constants';
-import "./SearchBar.scss"; 
+import "./SearchBar.scss";
+import debounce from 'lodash.debounce';
 
 
-const SearchBar : FunctionComponent = () => {
+const SearchBar: FunctionComponent = () => {
     const searchCategories = CATEGORY_LIST;
     const [searchText, setSearchText] = useState("");
 
@@ -17,25 +18,29 @@ const SearchBar : FunctionComponent = () => {
 
     const onSearchCategoryChange = (event: any) => {
         dispatch(searchCategoryAction(event.target.value));
+        if (searchText.length > 2) {
+            dispatch(getSearchAction(searchText, event.target.value));
+        }
     }
 
+    const onSearchTextChange = (event: any) => {
+        setSearchText(event.target.value)
+    }
 
-    // const delayedQuery = useCallback(debounce(dispatch(getSearchAction(searchText, category)), 500), [searchText]);
-    // setTimeout(() => {
-    //     fetchData(category);
-    // },300);
+    const debouncedDispatch = useCallback(debounce((text: string, cat: string) => dispatch(getSearchAction(text, cat)), 500), []);
 
     useEffect(() => {
-        // Cancel previous debounce calls during useEffect cleanup.
-        // return delayedQuery.cancel;
         if (searchText.length > 2) {
-            // delayedQuery(dispatch);
-            dispatch(searchRequestAction);
-            console.log("CATEGORY : ", category, " SEARCH : ", searchText);
-            dispatch(getSearchAction(searchText, category));
+            debouncedDispatch(searchText, category);
+
+            // Cancel previous debounce calls during useEffect cleanup.
+            return debouncedDispatch.cancel;
+        }
+        else{
+            dispatch(searchResultAction([]));
         }
 
-    }, [searchText, category])
+    }, [searchText])
 
     return (
         <div className="search-bar">
@@ -47,7 +52,7 @@ const SearchBar : FunctionComponent = () => {
                 </div>
             </div>
             <div className="github-search">
-                <input type="text" className="search-text" placeholder="Start typing to search .." value={searchText} onChange={e => setSearchText(e.target.value)} />
+                <input type="text" className="search-text" placeholder="Start typing to search .." value={searchText} onChange={onSearchTextChange} />
                 <select className="search-category" name="searchCategory" id="searchCategory" value={category} onChange={onSearchCategoryChange}>
                     {
                         searchCategories.map((ct, index) => {
