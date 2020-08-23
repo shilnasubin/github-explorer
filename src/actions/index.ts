@@ -1,14 +1,9 @@
-import { GitHubResult, SearchAction, SearchCategoryAction } from './../interfaces/types';
-import { SEARCH_RESULT, SEARCH_CATEGORY, SEARCH_REQUEST, SEARCH_ERROR } from "./actionType"
+import { GitHubResult, SearchAction, SearchInputAction } from './../interfaces/types';
+import { SEARCH_RESULT, SEARCH_CATEGORY,  SEARCH_ERROR, SEARCH_TEXT } from "./actionType";
+import { trackPromise} from 'react-promise-tracker';
 import axios from 'axios';
 import { Dispatch } from 'redux';
-// import { useDispatch } from 'react-redux';
 
-export const searchRequestAction = (): SearchAction => {
-    return {
-        type: SEARCH_REQUEST,
-    }
-}
 
 export const searchResultAction = (searchResult: GitHubResult[]): SearchAction => {
     return {
@@ -17,19 +12,25 @@ export const searchResultAction = (searchResult: GitHubResult[]): SearchAction =
     }
 }
 
-export const searchErrorAction = (): SearchAction => {
+export const searchErrorAction = () => {
     return {
         type: SEARCH_ERROR,
     }
 }
 
-export const searchCategoryAction = (searchCategory: string): SearchCategoryAction => {
+export const searchCategoryAction = (searchCategory: string): SearchInputAction => {
     return {
         type: SEARCH_CATEGORY,
-        searchCategory
+        searchCategory,
     }
 }
 
+export const searchInputAction = (searchText : string): SearchInputAction => {
+    return {
+        type: SEARCH_TEXT,
+        searchText
+    }
+}
 
 const baseUrl = "https://api.github.com/search";
 export const getSearchAction = (searchText: string, category: string) => {
@@ -46,7 +47,8 @@ export const getSearchAction = (searchText: string, category: string) => {
                 url = `${baseUrl}/issues?q=${searchText}`;
                 break;
         }
-        await axios
+        await trackPromise(
+         axios
             .get(url)
             .then(res => {
                 dispatch(searchResultAction(res.data.items));
@@ -54,6 +56,6 @@ export const getSearchAction = (searchText: string, category: string) => {
             .catch(error => {
                 dispatch(searchErrorAction);
                 console.log(error);
-            })
+            }))
     }
 }

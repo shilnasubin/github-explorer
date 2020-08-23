@@ -18,18 +18,18 @@ export interface SearchAction {
     searchResult?: GitHubResult[]
 }
 
-export interface SearchCategoryAction {
+export interface SearchInputAction {
     type: string,
-    searchCategory: string
+    searchCategory?: string
+    searchText?: string
 }
 
 export interface SearchResultState {
     items: GitHubResult[],
-    isLoading: boolean,
-    isError: boolean
+    isError: boolean,
 }
 
 export interface AppState {
-    searchCategory: string,
-    searchResult: SearchResultState
+    searchResult: SearchResultState,
+    searchInput: SearchInputAction
 }

@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { GitHubResult } from '../interfaces/types';
+import './Repository.scss';
 
 interface RepositoryProp {
     item: GitHubResult
@@ -8,7 +9,7 @@ interface RepositoryProp {
 const Repository: FunctionComponent<RepositoryProp> = ({ item }) => {
     return (
         <div className="search-result-details repository">
-            <a href={item.html_url} target="_blank">
+            <a href={item.html_url} target="_blank" rel="noopener noreferrer">
                 <div className="star">
                     <img src="images/star.png" alt="start" />
                     <p>{item.stargazers_count}</p>
@@ -25,7 +26,6 @@ const Repository: FunctionComponent<RepositoryProp> = ({ item }) => {
             </a>
         </div>
     )
-
 }
 
 export default Repository;

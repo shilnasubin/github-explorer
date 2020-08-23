@@ -1,9 +1,8 @@
-import { persistor } from './../store';
-import SearchResultReducer from './searchResultReducer';
-import SearchCategoryReducer from './searchCategoryReducer';
+import searchInputReducer from './searchInputReducer';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { searchResultReducer } from './searchResultReducer';
 
 const persistConfig = {
     key: 'root',
@@ -11,8 +10,8 @@ const persistConfig = {
     whiteList: ['searchResult']
 }
 const allReducers = combineReducers({
-    searchCategory: SearchCategoryReducer,
-    searchResult: SearchResultReducer
+    searchInput: searchInputReducer,
+    searchResult: searchResultReducer,
 });
 
 export default persistReducer(persistConfig, allReducers);
