@@ -1,7 +1,8 @@
 # GitHub Searcher
 
 This is an app made with react to search for users and repositories using github api.  
-See a working  version of the application here [Github Searcher](https://shilnasubin.github.io/github-explorer)
+
+- See a working  version of the application here [Github Searcher](https://shilnasubin.github.io/github-explorer)
 
 ## Running application
 
